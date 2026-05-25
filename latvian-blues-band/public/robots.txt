@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://latvianbluesband.lv/sitemap-index.xml

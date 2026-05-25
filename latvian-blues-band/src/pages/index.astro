@@ -1,0 +1,895 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import SectionWrapper from "../components/SectionWrapper.astro";
+import PosterSlideshow from "../components/PosterSlideshow.astro";
+import SpotifyPlayer from "../components/SpotifyPlayer.astro";
+import YouTubeEmbed from "../components/YouTubeEmbed.astro";
+import DiscographyCard from "../components/DiscographyCard.astro";
+import ShowCard from "../components/ShowCard.astro";
+import MemberCard from "../components/MemberCard.astro";
+import NewsletterSignup from "../components/NewsletterSignup.astro";
+import Footer from "../components/Footer.astro";
+
+import discography from "../data/discography.json";
+import allShows from "../data/shows.json";
+import members from "../data/members.json";
+
+// Today at build time — used to split upcoming vs past
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
+const upcoming = allShows
+  .filter((s) => new Date(s.date + "T00:00:00") >= today)
+  .sort((a, b) => a.date.localeCompare(b.date));
+
+const past = allShows
+  .filter((s) => new Date(s.date + "T00:00:00") < today)
+  .sort((a, b) => b.date.localeCompare(a.date)); // newest-first
+---
+
+<BaseLayout>
+  <Navbar />
+
+  <!-- SECTION: HOME -->
+  <SectionWrapper id="home" bg="deep">
+    <PosterSlideshow />
+  </SectionWrapper>
+
+  <!-- SECTION: MEDIA -->
+  <SectionWrapper id="media" bg="surface">
+    <div class="media-wrap">
+      <div class="media-header reveal"></div>
+
+      <div class="media-grid">
+        <div class="reveal">
+          <p class="media-sub-label">Spotify</p>
+          <SpotifyPlayer
+            artistId="1qMnpBrWo9j6mgz4dCIKoS?utm_source=generator"
+          />
+        </div>
+        <div class="reveal">
+          <p class="media-sub-label">Latest Video</p>
+          <YouTubeEmbed
+            videoId="aPgFV_vGkIg?si=XAkCZYejHfZEUyO1"
+            title="Latvian Blues Band Promo"
+          />
+        </div>
+      </div>
+    </div>
+  </SectionWrapper>
+
+  <!-- ══════════════════════════════════════
+       SECTION: DISCOGRAPHY
+       ══════════════════════════════════════ -->
+  <SectionWrapper id="discography" bg="deep">
+    <div class="disc-section-wrap">
+      <div class="disc-header reveal"></div>
+
+      <ul class="disc-grid reveal-stagger" role="list">
+        {
+          discography.map((album) => (
+            <li>
+              <DiscographyCard
+                title={album.title}
+                year={album.year}
+                cover={album.cover}
+                spotifyUrl={album.spotifyUrl}
+                deezerUrl={album.deezerUrl}
+                youtubeUrl={album.youtubeUrl}
+              />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </SectionWrapper>
+
+  <!-- ══════════════════════════════════════
+       SECTION: TOUR
+       ══════════════════════════════════════ -->
+  <SectionWrapper id="tour" bg="surface">
+    <div class="tour-wrap">
+      <!-- Header -->
+      <div class="tour-header reveal"></div>
+
+      <!-- Upcoming shows -->
+      <div class="tour-upcoming">
+        {
+          upcoming.length > 0 ? (
+            <ul class="show-list reveal-stagger" role="list">
+              {upcoming.map((show) => (
+                <li>
+                  <ShowCard
+                    date={show.date}
+                    venue={show.venue}
+                    city={show.city}
+                    country={show.country}
+                    ticketUrl={show.ticketUrl}
+                    description={show.description}
+                    isPast={false}
+                  />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p class="tour-empty reveal">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <>
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <line x1="12" y1="16" x2="12.01" y2="16" />
+                </>
+              </svg>
+              Stay tuned for upcoming shows — follow us on social media for
+              announcements.
+            </p>
+          )
+        }
+      </div>
+
+      <!-- Past shows (collapsible) -->
+      {
+        past.length > 0 && (
+          <div class="tour-past reveal">
+            <button
+              class="past-toggle"
+              id="past-toggle"
+              aria-expanded="false"
+              aria-controls="past-shows"
+            >
+              <span>Past shows ({past.length})</span>
+              <svg
+                class="past-toggle-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+
+            <ul
+              class="show-list show-list--past"
+              id="past-shows"
+              role="list"
+              hidden
+            >
+              {past.map((show) => (
+                <li>
+                  <ShowCard
+                    date={show.date}
+                    venue={show.venue}
+                    city={show.city}
+                    country={show.country}
+                    ticketUrl={show.ticketUrl}
+                    description={show.description}
+                    isPast={true}
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
+    </div>
+  </SectionWrapper>
+
+  <!-- ══════════════════════════════════════
+       SECTION: ABOUT
+       ══════════════════════════════════════ -->
+  <SectionWrapper id="about" bg="deep">
+    <!-- Pane 1: band bio — snap point on mobile, first part on desktop -->
+    <div class="about-bio-pane">
+      <div class="about-story reveal">
+        <p>
+          Latvian Blues Band launched their international career in 2000 with a
+          Canadian album and tour alongside blues expert Johnny V. Since then,
+          the band has performed across more than 20 countries spanning around
+          the world. Key milestones include a 2005 Trophées France Blues
+          nomination as best European blues band, a historic appearance as the
+          first European-based act at the Chicago Blues Festival (2008), and two
+          trips to the International Blues Challenge in Memphis (2010, 2015).
+          The band's debut studio album Unreal (2009), produced by Duke
+          Robillard, earned critical acclaim, while LBB & Friends Live at the
+          Dream Factory (2013) won Latvia's Golden Microphone award for best
+          jazz/blues album. In 2017, the band launched its own R'n'B Blues
+          Festival, cementing its role as a driving force in the European blues
+          scene.
+        </p>
+      </div>
+    </div>
+
+    <!-- Pane 2: member cards — snap point on mobile, second part on desktop -->
+    <div class="about-members-pane">
+      <ul class="members-grid reveal-stagger" role="list">
+        {
+          members.map((member) => (
+            <li>
+              <MemberCard
+                name={member.name}
+                instrument={member.instrument}
+                photo={member.photo}
+                socialLinks={member.socialLinks}
+              />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </SectionWrapper>
+
+  <!-- ══════════════════════════════════════
+       SECTION: CONTACT
+       ══════════════════════════════════════ -->
+  <SectionWrapper id="contact" bg="surface">
+    <div class="contact-wrap">
+      <!-- Header -->
+      <div class="contact-header reveal">
+        <p class="block-label">Get in touch</p>
+      </div>
+
+      <div class="contact-body">
+        <!-- Booking email -->
+        <div class="contact-booking reveal">
+          <p class="contact-booking-label">Booking &amp; enquiries</p>
+          <a
+            href="mailto:latvianbluesband@inbox.lv?subject=Booking%20Inquiry"
+            class="btn btn-glow contact-email-btn"
+            data-ga-event="contact_click"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              style="margin-right:0.6rem;flex-shrink:0;"
+              ><path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              ></path><polyline points="22,6 12,13 2,6"></polyline></svg
+            >
+            latvianbluesband@inbox.lv
+          </a>
+        </div>
+
+        <!-- Divider -->
+        <div class="contact-divider" aria-hidden="true"></div>
+
+        <!-- Newsletter signup -->
+        <div class="reveal">
+          <NewsletterSignup />
+        </div>
+
+        <!-- Divider -->
+        <div class="contact-divider" aria-hidden="true"></div>
+
+        <!-- Social links row -->
+        <div class="contact-socials reveal">
+          <p class="contact-socials-label">Follow us</p>
+          <ul class="socials-row" role="list">
+            <li>
+              <a
+                href="https://facebook.com/latvianbluesband"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-pill"
+                data-ga-platform="facebook"
+                data-ga-event="social_click"
+                aria-label="Latvian Blues Band on Facebook"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                  ><path
+                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                  ></path></svg
+                >
+                Facebook
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://instagram.com/latvianbluesband"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-pill"
+                data-ga-platform="instagram"
+                data-ga-event="social_click"
+                aria-label="Latvian Blues Band on Instagram"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                  ><path
+                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"
+                  ></path></svg
+                >
+                Instagram
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://open.spotify.com/artist/1qMnpBrWo9j6mgz4dCIKoS?si=e6XzeJrHRAKbaiwq3wI1mg"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-pill"
+                data-ga-platform="spotify"
+                data-ga-event="social_click"
+                aria-label="Latvian Blues Band on Spotify"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                  ><path
+                    d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"
+                  ></path></svg
+                >
+                Spotify
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.deezer.com/us/artist/1374893"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-pill"
+                data-ga-platform="deezer"
+                data-ga-event="social_click"
+                aria-label="Latvian Blues Band on Deezer"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                  ><path
+                    d="M18.944 16.412H24v1.641h-5.056zm0-2.725H24v1.641h-5.056zm0-2.724H24v1.64h-5.056zM0 16.412h5.056v1.641H0zm6.472 0h5.056v1.641H6.472zm6.472 0H18v1.641h-5.056zm-6.472-2.725h5.056v1.641H6.472zm6.472 0H18v1.641h-5.056zm-6.472-2.724h5.056v1.64H6.472zm6.472 0H18v1.64h-5.056zm-6.472-2.725h5.056v1.641H6.472zm6.472 0H18v1.641h-5.056zm0-2.724H18v1.64h-5.056z"
+                  ></path></svg
+                >
+                Deezer
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.youtube.com/@lbbofficial809"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-pill"
+                data-ga-platform="youtube"
+                data-ga-event="social_click"
+                aria-label="Latvian Blues Band on YouTube"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                  ><path
+                    d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"
+                  ></path></svg
+                >
+                YouTube
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Footer — bottom of contact section -->
+      <Footer />
+    </div>
+  </SectionWrapper>
+</BaseLayout>
+
+<style>
+  /* ── Shared section util ── */
+  .section-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding-top: 64px;
+  }
+
+  .px-content {
+    padding: 0 1.5rem;
+  }
+  .text-center {
+    text-align: center;
+  }
+  .mt-8 {
+    margin-top: 2rem;
+  }
+
+  /* ── Shared label ── */
+  .block-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  /* ════════════════════════════════
+     MEDIA SECTION
+     ════════════════════════════════ */
+  .media-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 7rem 1.5rem 5rem;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3rem;
+  }
+
+  .media-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .media-sub-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: 0.75rem;
+  }
+
+  /* Side-by-side on desktop, stacked on mobile */
+  .media-grid {
+    display: grid;
+    gap: 2.5rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 900px) {
+    .media-grid {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .media-wrap {
+      padding: 4.5rem 1rem 1rem;
+      justify-content: flex-start;
+      gap: 1rem;
+    }
+    .media-grid {
+      gap: 1.5rem;
+    }
+  }
+
+  /* ════════════════════════════════
+     DISCOGRAPHY SECTION
+     ════════════════════════════════ */
+  .disc-section-wrap {
+    /* Use grid so header takes natural height and grid takes the rest */
+    height: 100dvh;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem 1.5rem;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 1rem;
+  }
+
+  .disc-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  /* ── Card list — single column, cover left / info right ── */
+  .disc-grid {
+    list-style: none;
+    min-height: 0; /* prevent grid blowout */
+    height: 100%;  /* fill the 1fr area so rows distribute available height */
+    display: grid;
+    gap: 0.6rem;
+    grid-template-columns: 1fr;
+    grid-auto-rows: 1fr; /* all 6 cards share available height equally */
+  }
+
+  /* li must fill its grid cell so disc-card height:100% works */
+  .disc-grid li {
+    min-height: 0;
+  }
+
+  /* Smaller screens: scroll naturally, flush edges */
+  @media (max-width: 559px) {
+    .disc-section-wrap {
+      height: auto;
+      min-height: 100dvh;
+      padding-top: 4rem;
+      padding-left: 0;
+      padding-right: 0;
+      padding-bottom: 3rem;
+    }
+    .disc-header {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+    .disc-grid {
+      height: auto;
+      grid-auto-rows: 90px;
+    }
+  }
+
+  /* ════════════════════════════════
+     TOUR SECTION
+     ════════════════════════════════ */
+  .tour-wrap {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 7rem 1.5rem 5rem;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2.5rem;
+  }
+
+  .tour-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 559px) {
+    .tour-wrap {
+      padding-top: 2.5rem;
+    }
+  }
+
+  .tour-upcoming {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Show list */
+  .show-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  /* Empty state */
+  .tour-empty {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    background: var(--color-bg-elevated);
+    border: 1px dashed var(--color-border);
+    border-radius: 6px;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  /* Past shows toggle */
+  .tour-past {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .past-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    font-family: "Source Sans 3", sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.5rem 0;
+    transition: color 0.2s ease;
+    width: fit-content;
+  }
+
+  .past-toggle:hover {
+    color: var(--color-text-primary);
+  }
+
+  .past-toggle-icon {
+    transition: transform 0.3s ease;
+  }
+
+  .past-toggle[aria-expanded="true"] .past-toggle-icon {
+    transform: rotate(180deg);
+  }
+
+  .show-list--past {
+    /* slight opacity handled per-card via isPast prop */
+  }
+
+  /* ════════════════════════════════
+     CONTACT SECTION
+     ════════════════════════════════ */
+  .contact-wrap {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    padding-top: 7rem;
+  }
+
+  .contact-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 1.5rem;
+  }
+
+  .contact-body {
+    flex: 1;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 2rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  /* Booking */
+  .contact-booking {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    text-align: center;
+    width: 100%;
+  }
+
+  .contact-booking-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .contact-email-btn {
+    font-size: 0.85rem;
+    padding: 0.875rem 1.75rem;
+    letter-spacing: 0.04em;
+    text-transform: none;
+    word-break: break-all;
+  }
+
+  .contact-booking-note {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+  }
+
+  /* Divider */
+  .contact-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--color-border),
+      transparent
+    );
+  }
+
+  /* Social pills */
+  .contact-socials {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    width: 100%;
+  }
+
+  .contact-socials-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .socials-row {
+    list-style: none;
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .social-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    border-radius: 100px;
+    transition:
+      color 0.25s ease,
+      border-color 0.25s ease,
+      background 0.25s ease,
+      transform 0.25s ease;
+    min-height: 44px;
+    text-decoration: none;
+  }
+
+  @media (hover: hover) {
+    .social-pill:hover {
+      color: var(--color-accent);
+      border-color: var(--color-accent);
+      background: rgba(196, 132, 45, 0.07);
+      transform: translateY(-2px);
+    }
+  }
+
+  /* ════════════════════════════════
+     ABOUT SECTION
+     ════════════════════════════════ */
+
+  /*
+   * Mobile: #about is rendered by SectionWrapper so Astro's scoped styles
+   * can't reach it — :global() is required. We strip snap + overflow so the
+   * element is NOT a scroll container (overflow:hidden creates one), letting
+   * the inner panes register their own snap points against <html>.
+   */
+  @media (max-width: 1023px) {
+    :global(#about) {
+      min-height: unset;
+      scroll-snap-align: none;
+      overflow: visible;
+    }
+    .about-bio-pane,
+    .about-members-pane {
+      min-height: 100dvh;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      background-color: var(--color-bg-deep);
+    }
+  }
+
+  /* Bio pane */
+  .about-bio-pane {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem 1.5rem 4rem;
+  }
+
+  .about-story {
+    max-width: 680px;
+    text-align: center;
+  }
+
+  .about-story p {
+    font-size: clamp(0.95rem, 2vw, 1.05rem);
+    color: var(--color-text-primary);
+    line-height: 1.8;
+  }
+
+  /* Members pane */
+  .about-members-pane {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 1.5rem;
+  }
+
+  /* Responsive grid: 2 → 4 columns */
+  .members-grid {
+    list-style: none;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+    max-width: 900px;
+  }
+
+  /* Desktop: single snap section, both panes flow as one column */
+  @media (min-width: 1024px) {
+    :global(#about) {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .about-bio-pane {
+      padding: 4rem 1.5rem 2rem;
+    }
+    .about-members-pane {
+      padding: 0 1.5rem 4rem;
+    }
+    .members-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      max-width: 1100px;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById("past-toggle");
+  const pastList = document.getElementById("past-shows");
+
+  toggle?.addEventListener("click", () => {
+    const isExpanded = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!isExpanded));
+    if (isExpanded) {
+      pastList?.setAttribute("hidden", "");
+    } else {
+      pastList?.removeAttribute("hidden");
+    }
+  });
+</script>

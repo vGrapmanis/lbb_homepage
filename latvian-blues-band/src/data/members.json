@@ -1,0 +1,54 @@
+[
+  {
+    "name": "Jānis Bukovskis",
+    "instrument": "Vocals / Guitar",
+    "photo": "/images/members/bux.jpg",
+    "socialLinks": [
+      {
+        "platform": "facebook",
+        "url": "https://www.facebook.com/janis.bukovskis",
+        "label": "Jānis Bukovskis"
+      },
+      {
+        "platform": "facebook",
+        "url": "https://www.facebook.com/profile.php?id=61575022418355",
+        "label": "JS Music"
+      },
+      {
+        "platform": "facebook",
+        "url": "https://www.facebook.com/rbbluesfest/",
+        "label": "RnB Blues Festival"
+      }
+    ]
+  },
+  {
+    "name": "Rolands Saulietis",
+    "instrument": "Drums / Backing Vocals",
+    "photo": "/images/members/rolix.jpg",
+    "socialLinks": [
+      {
+        "platform": "youtube",
+        "url": "https://www.youtube.com/@rolandssaulietis705",
+        "label": "YouTube"
+      }
+    ]
+  },
+  {
+    "name": "Artis Ločmelis",
+    "instrument": "Hammond B3 Organ / Piano / Saxophone",
+    "photo": "/images/members/artis.jpg",
+    "socialLinks": [
+      {
+        "platform": "fiverr",
+        "url": "https://www.fiverr.com/artis_sax?source=gig_cards&referrer_gig_slug=recording-bluesy-funky-jazzy-sax-solos-for-you&ref_ctx_id=09c98721fcc04bc38209a929a3e75550&imp_id=03f8a395-3328-4408-81a8-f8f4adc9fb31",
+        "label": "Fiverr"
+      }
+    ]
+  },
+  {
+    "name": "Viesturs Grapmanis",
+    "instrument": "Trumpet",
+    "photo": "/images/members/viesturs.jpg",
+    "socialLinks": []
+  }
+]

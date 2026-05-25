@@ -1,0 +1,247 @@
+---
+interface SocialLink {
+  platform: string;
+  url: string;
+  label: string;
+}
+
+interface Props {
+  name: string;
+  instrument: string;
+  photo: string;
+  socialLinks?: SocialLink[];
+}
+
+const { name, instrument, photo, socialLinks = [] } = Astro.props;
+
+const firstName = name.split(' ')[0];
+const hasSocials = socialLinks.length > 0;
+---
+
+<article class="member-card">
+  <!-- Photo -->
+  <div class={`member-photo-wrap${hasSocials ? ' has-socials' : ''}`}>
+    <img
+      src={photo}
+      alt={`${name} — ${instrument}`}
+      class="member-photo"
+      width="400"
+      height="400"
+      loading="lazy"
+      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+    />
+    <!-- Fallback avatar placeholder -->
+    <div class="member-avatar-placeholder" aria-hidden="true" style="display:none;">
+      <span class="member-avatar-initial">{firstName[0]}</span>
+    </div>
+
+    <!-- Social links overlay -->
+    {hasSocials && (
+      <div class="member-social-overlay">
+        <ul class="social-links">
+          {socialLinks.map(link => (
+            <li>
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-link"
+                aria-label={link.label}
+              >
+                {link.platform === 'facebook' && (
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.887v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
+                  </svg>
+                )}
+                {link.platform === 'youtube' && (
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
+                  </svg>
+                )}
+                {link.platform === 'fiverr' && (
+                  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <circle cx="50" cy="50" r="50" fill="#1DBF73"/>
+                    <rect x="15" y="51" width="70" height="8" fill="white"/>
+                    <rect x="17" y="59" width="9" height="12" fill="white"/>
+                    <rect x="10" y="71" width="23" height="8" fill="white"/>
+                    <rect x="67" y="59" width="9" height="12" fill="white"/>
+                    <rect x="60" y="71" width="23" height="8" fill="white"/>
+                    <circle cx="71.5" cy="30" r="9" fill="white"/>
+                    <path d="M21.5 51 L21.5 35 Q21.5 20 33 20 Q45 20 45 33 L45 43" stroke="white" stroke-width="9" fill="none" stroke-linecap="butt" stroke-linejoin="round"/>
+                  </svg>
+                )}
+                <span class="social-label">{link.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </div>
+
+  <!-- Name + instrument (always visible) -->
+  <div class="member-info">
+    <h3 class="member-name">{name}</h3>
+    <p class="member-instrument">{instrument}</p>
+  </div>
+
+</article>
+
+{hasSocials && (
+  <script>
+    const isTouchDevice = () => window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
+    document.querySelectorAll('.member-photo-wrap.has-socials').forEach(wrap => {
+      wrap.addEventListener('click', e => {
+        if ((e.target as Element).closest('.social-link')) return;
+        wrap.classList.toggle('social-active');
+      });
+
+      wrap.addEventListener('mouseleave', () => {
+        if (!isTouchDevice()) {
+          wrap.classList.remove('social-active');
+        }
+      });
+    });
+
+    // Dismiss overlay when tapping outside the card on touch devices
+    document.addEventListener('click', e => {
+      document.querySelectorAll('.member-photo-wrap.social-active').forEach(wrap => {
+        if (!wrap.contains(e.target as Node)) {
+          wrap.classList.remove('social-active');
+        }
+      });
+    });
+  </script>
+)}
+
+<style>
+  .member-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* ── Photo wrap ── */
+  .member-photo-wrap {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 6px;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-surface);
+  }
+
+  .member-photo-wrap.has-socials {
+    cursor: pointer;
+  }
+
+  /* ── Photo ── */
+  .member-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  /* ── Placeholder avatar ── */
+  .member-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--color-bg-elevated), var(--color-bg-surface));
+  }
+
+  .member-avatar-initial {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    opacity: 0.6;
+    line-height: 1;
+  }
+
+  /* ── Social overlay ── */
+  .member-social-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.72);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    border-radius: 6px;
+  }
+
+  @media (hover: hover) {
+    .member-photo-wrap:hover .member-social-overlay {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  .member-photo-wrap.social-active .member-social-overlay {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .social-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 0;
+    margin: 0;
+  }
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 0.35rem 0.7rem;
+    border-radius: 4px;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+
+  .social-link:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  .social-link svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  /* ── Info row ── */
+  .member-info {
+    padding: 1rem 0.25rem 0.25rem;
+  }
+
+  .member-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    line-height: 1.2;
+  }
+
+  .member-instrument {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-top: 0.25rem;
+  }
+
+</style>

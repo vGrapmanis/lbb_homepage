@@ -1,0 +1,33 @@
+---
+interface Props {
+  id: string;
+  bg?: 'deep' | 'surface';
+  class?: string;
+}
+
+const { id, bg = 'deep', class: className = '' } = Astro.props;
+
+const bgClass = bg === 'surface' ? 'bg-surface' : 'bg-deep';
+---
+
+<section
+  id={id}
+  class:list={['section noise-overlay', bgClass, className]}
+  tabindex="-1"
+>
+  <slot />
+</section>
+
+<style>
+  .bg-deep {
+    background-color: var(--color-bg-deep);
+  }
+  .bg-surface {
+    background-color: var(--color-bg-surface);
+  }
+
+  /* Clip noise overlay and any absolutely-positioned children */
+  :global(.section) {
+    overflow: hidden;
+  }
+</style>

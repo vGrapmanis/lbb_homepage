@@ -1,0 +1,709 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<BaseLayout
+  title="Privacy Policy — Latvian Blues Band"
+  description="Privacy policy for latvianbluesband.lv — how we collect, use, and protect your personal data under GDPR."
+>
+  <Navbar homeBase="/" />
+
+  <main class="privacy-main" id="main-content">
+    <div class="privacy-content">
+      <header class="privacy-header">
+        <p class="privacy-eyebrow">Legal</p>
+        <h1 class="privacy-title">Privacy Policy</h1>
+        <p class="privacy-meta">Last updated: 25 May 2026</p>
+        <p class="privacy-intro">
+          This policy explains what personal data latvianbluesband.lv collects,
+          why, and what rights you have over it. We've kept it plain — no legal
+          boilerplate that doesn't apply to us.
+        </p>
+      </header>
+
+      <hr class="divider" />
+
+      <!-- 1. WHO WE ARE -->
+      <section class="policy-section">
+        <h2>1. Who We Are</h2>
+        <p>
+          Latvian Blues Band is a music group based in Latvia. We are the data
+          controller for personal data collected through this website.
+        </p>
+        <div class="info-block">
+          <p>
+            <strong>Data controller:</strong>
+            <span class="placeholder">Viesturs Grapmanis</span>
+          </p>
+          <p>
+            <strong>Email for privacy requests:</strong>
+            <span class="placeholder">info@itvgsolutions.lv</span>
+          </p>
+          <p><strong>Website:</strong> latvianbluesband.lv</p>
+        </div>
+        <p>
+          We do not have a Data Protection Officer (DPO) — our processing is not
+          large-scale or systematic in a way that requires one under GDPR
+          Article 37.
+        </p>
+      </section>
+
+      <!-- 2. WHAT DATA WE COLLECT -->
+      <section class="policy-section">
+        <h2>2. What Data We Collect</h2>
+
+        <h3>2.1 Newsletter (Mailchimp)</h3>
+        <p>
+          When you subscribe to our newsletter, we collect your <strong
+            >email address</strong
+          >. Mailchimp — our email service provider — also automatically records
+          your signup timestamp, IP address, approximate location, and email
+          engagement metrics (whether you open emails or click links).
+        </p>
+        <p>
+          This is the only form on the site. Subscription is entirely voluntary.
+        </p>
+
+        <h3>2.2 Website Analytics (Google Analytics 4)</h3>
+        <p>
+          <em>Google Analytics is not yet active on this site.</em> When it is enabled,
+          GA4 will collect: approximate location (city-level, derived from your IP
+          address — full IPs are not stored), device type, browser, pages visited,
+          session duration, and how you arrived at the site. This data is anonymous
+          and aggregate — we cannot identify you individually from it.
+        </p>
+        <p>
+          GA4 uses cookies. We will implement a cookie consent banner before
+          activating analytics — it will not run without your explicit opt-in.
+        </p>
+
+        <h3>2.3 Hosting Logs (Netlify)</h3>
+        <p>
+          Our hosting provider, Netlify, automatically logs standard server
+          access data including IP addresses and browser information. This is a
+          normal part of operating any website and is handled by Netlify, not us
+          directly.
+        </p>
+
+        <h3>2.4 Email Contact (Booking)</h3>
+        <p>
+          The booking link on this site opens your own email application via a <code
+            >mailto:</code
+          > link. We collect nothing through this — your email client handles it entirely.
+        </p>
+
+        <h3>2.5 Embedded Media (Spotify, YouTube)</h3>
+        <p>
+          This site includes Spotify and YouTube players. These embeds are
+          loaded from Spotify's and Google's servers. When you interact with
+          them, those services may set their own cookies and collect usage data
+          under their own privacy policies. We have no control over or access to
+          that data.
+        </p>
+      </section>
+
+      <!-- 3. LEGAL BASIS -->
+      <section class="policy-section">
+        <h2>3. Why We Collect It (Legal Basis)</h2>
+
+        <div class="table-wrapper">
+          <table class="policy-table">
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Purpose</th>
+                <th>Legal basis (GDPR Art. 6)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Newsletter email + engagement</td>
+                <td>Sending news, show announcements, and updates</td>
+                <td>Consent — Art. 6(1)(a)</td>
+              </tr>
+              <tr>
+                <td>Analytics data (when active)</td>
+                <td
+                  >Understanding how people use the site so we can improve it</td
+                >
+                <td>Consent — Art. 6(1)(a)</td>
+              </tr>
+              <tr>
+                <td>Hosting server logs</td>
+                <td>Operating, securing, and troubleshooting the website</td>
+                <td>Legitimate interest — Art. 6(1)(f)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          You can withdraw consent for the newsletter at any time using the
+          unsubscribe link at the bottom of every email. You can withdraw
+          consent for analytics by declining or withdrawing cookie consent
+          through the cookie preference tool (available when GA4 is activated).
+        </p>
+      </section>
+
+      <!-- 4. WHO WE SHARE DATA WITH -->
+      <section class="policy-section">
+        <h2>4. Who We Share Data With</h2>
+        <p>
+          We do not sell your data. We share it only with the service providers
+          necessary to run this site.
+        </p>
+
+        <h3>4.1 Mailchimp (Intuit Inc., USA)</h3>
+        <p>
+          Your newsletter subscription is stored and managed by Mailchimp.
+          Mailchimp acts as a data processor on our behalf under a Data
+          Processing Addendum (DPA) that incorporates Standard Contractual
+          Clauses. Mailchimp also inserts tracking pixels in emails to record
+          open rates — this is standard email marketing practice and covered by
+          the consent you give when subscribing.
+        </p>
+        <p>
+          <a
+            href="https://mailchimp.com/legal/privacy/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="policy-link"
+          >
+            Mailchimp Privacy Policy →
+          </a>
+        </p>
+
+        <h3>4.2 Google LLC (USA)</h3>
+        <p>
+          When Google Analytics 4 is active, usage data is sent to Google and
+          processed under Google's Data Processing Terms. Google acts as a data
+          processor.
+        </p>
+        <p>
+          <a
+            href="https://policies.google.com/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="policy-link"
+          >
+            Google Privacy Policy →
+          </a>
+        </p>
+
+        <h3>4.3 Netlify Inc. (USA)</h3>
+        <p>
+          This website is hosted on Netlify, which processes server access logs
+          as part of normal hosting operations. Netlify acts as a data processor
+          under their Data Processing Agreement, which includes Standard
+          Contractual Clauses.
+        </p>
+        <p>
+          <a
+            href="https://www.netlify.com/gdpr-ccpa/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="policy-link"
+          >
+            Netlify GDPR &amp; Privacy →
+          </a>
+        </p>
+
+        <h3>4.4 Spotify and YouTube</h3>
+        <p>
+          Embedded players load content directly from Spotify's and Google's
+          servers. Any data collected through those embeds is governed by their
+          own policies, which we link to above.
+        </p>
+      </section>
+
+      <!-- 5. INTERNATIONAL TRANSFERS -->
+      <section class="policy-section">
+        <h2>5. International Transfers</h2>
+        <p>
+          All three of our service providers (Mailchimp, Google, Netlify) are
+          headquartered in the United States. Transfers of your personal data to
+          the US are protected by two mechanisms:
+        </p>
+        <ul>
+          <li>
+            <strong>EU–US Data Privacy Framework (DPF):</strong> Both Mailchimp (Intuit)
+            and Google are certified under the DPF, which the European Commission
+            recognized as providing adequate protection in its July 2023 adequacy
+            decision. The EU General Court upheld this decision in September 2025.
+            An appeal is pending at the Court of Justice of the EU (Case C-703/25
+            P) — the outcome remains uncertain.
+          </li>
+          <li>
+            <strong>Standard Contractual Clauses (SCCs):</strong> All three processors
+            have SCCs incorporated into their Data Processing Agreements as a backup
+            transfer mechanism, valid regardless of the DPF's status.
+          </li>
+        </ul>
+      </section>
+
+      <!-- 6. RETENTION -->
+      <section class="policy-section">
+        <h2>6. How Long We Keep Your Data</h2>
+
+        <div class="table-wrapper">
+          <table class="policy-table">
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Retention period</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Newsletter subscription</td>
+                <td
+                  >Until you unsubscribe (you can do this at any time via any
+                  email we send)</td
+                >
+              </tr>
+              <tr>
+                <td>Analytics data</td>
+                <td
+                  >14 months (Google Analytics default, as configured in our GA4
+                  property settings)</td
+                >
+              </tr>
+              <tr>
+                <td>Hosting server logs</td>
+                <td>Per Netlify's operational retention policy</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 7. YOUR RIGHTS -->
+      <section class="policy-section">
+        <h2>7. Your Rights Under GDPR</h2>
+        <p>
+          Under GDPR, you have the following rights regarding your personal
+          data:
+        </p>
+
+        <ul class="rights-list">
+          <li>
+            <strong>Access</strong> — request a copy of the personal data we hold
+            about you
+          </li>
+          <li>
+            <strong>Rectification</strong> — ask us to correct inaccurate or incomplete
+            data
+          </li>
+          <li>
+            <strong>Erasure</strong> — ask us to delete your data (the "right to be
+            forgotten")
+          </li>
+          <li>
+            <strong>Restriction</strong> — ask us to pause processing while a dispute
+            is resolved
+          </li>
+          <li>
+            <strong>Portability</strong> — receive your data in a machine-readable
+            format
+          </li>
+          <li>
+            <strong>Objection</strong> — object to processing based on legitimate
+            interest
+          </li>
+          <li>
+            <strong>Withdraw consent</strong> — for the newsletter, use the unsubscribe
+            link in any email; for analytics, use the cookie preference tool
+          </li>
+        </ul>
+
+        <p>
+          To exercise any of these rights, email us at:
+          <span class="placeholder">info@itvgsolutions.lv</span>. We will
+          respond within one month as required by GDPR.
+        </p>
+
+        <div class="dvi-block">
+          <p>
+            You also have the right to lodge a complaint with the Latvian Data
+            State Inspectorate (<em>Datu valsts inspekcija</em>, DVI) — the
+            supervisory authority for data protection in Latvia:
+          </p>
+          <p>
+            <a
+              href="https://www.dvi.gov.lv/en"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="policy-link"
+            >
+              dvi.gov.lv →
+            </a>
+          </p>
+          <p class="dvi-address">Elijas iela 17, Riga, LV-1050, Latvia</p>
+        </div>
+      </section>
+
+      <!-- 8. COOKIES -->
+      <section class="policy-section">
+        <h2>8. Cookies</h2>
+        <p>
+          A cookie is a small text file stored in your browser. Here is what
+          this site sets and why:
+        </p>
+
+        <div class="table-wrapper">
+          <table class="policy-table">
+            <thead>
+              <tr>
+                <th>Source</th>
+                <th>Purpose</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Google Analytics 4</td>
+                <td
+                  >Site usage analytics (pages visited, session data, traffic
+                  source)</td
+                >
+                <td
+                  >Not yet active — will require your explicit opt-in consent
+                  when enabled</td
+                >
+              </tr>
+              <tr>
+                <td>Spotify</td>
+                <td>Music player functionality</td>
+                <td>Only set when you interact with the Spotify player</td>
+              </tr>
+              <tr>
+                <td>YouTube (Google)</td>
+                <td>Video player functionality</td>
+                <td>Only set when you interact with the YouTube player</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          Analytics cookies are non-essential under the ePrivacy Directive and
+          cannot be loaded without your prior consent. We will implement a
+          cookie consent tool before activating Google Analytics.
+        </p>
+        <p>
+          You can manage or delete cookies at any time through your browser
+          settings. Removing cookies does not affect your ability to use this
+          site.
+        </p>
+      </section>
+
+      <!-- 9. CHILDREN -->
+      <section class="policy-section">
+        <h2>9. Children</h2>
+        <p>
+          This website is not directed at children under 13. We do not knowingly
+          collect personal data from anyone under that age. If you believe a
+          child has subscribed to the newsletter without appropriate consent,
+          please contact us at the email above and we will delete their data
+          promptly.
+        </p>
+      </section>
+
+      <!-- 10. CHANGES -->
+      <section class="policy-section">
+        <h2>10. Changes to This Policy</h2>
+        <p>
+          We may update this policy when our data practices change or when legal
+          requirements require it. The "Last updated" date at the top of this
+          page will reflect any revisions. For material changes, we will add a
+          note to the website.
+        </p>
+        <p>
+          Continued use of the site after a policy update does not constitute
+          consent to the changes — please review the policy periodically.
+        </p>
+      </section>
+
+      <hr class="divider" />
+
+      <p class="back-link-wrap">
+        <a href="/" class="back-link">← Back to latvianbluesband.lv</a>
+      </p>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .privacy-main {
+    min-height: 100vh;
+    background: var(--color-bg-deep);
+    padding-top: 64px; /* navbar height */
+  }
+
+  .privacy-content {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 5rem;
+  }
+
+  /* Header */
+  .privacy-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .privacy-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .privacy-title {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--color-text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .privacy-meta {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .privacy-intro {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    border-left: 2px solid var(--color-accent);
+    padding-left: 1rem;
+  }
+
+  /* Divider */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 2.5rem 0;
+  }
+
+  /* Sections */
+  .policy-section {
+    margin-bottom: 3rem;
+  }
+
+  .policy-section h2 {
+    font-family: "Playfair Display", serif;
+    font-size: 1.35rem;
+    color: var(--color-text-primary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .policy-section h3 {
+    font-family: "Source Sans 3", sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    margin-top: 1.5rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .policy-section p {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    line-height: 1.75;
+    margin-bottom: 0.75rem;
+  }
+
+  .policy-section p:last-child {
+    margin-bottom: 0;
+  }
+
+  .policy-section ul {
+    margin: 0.5rem 0 0.75rem 0;
+    padding-left: 1.25rem;
+  }
+
+  .policy-section li {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    line-height: 1.75;
+    margin-bottom: 0.5rem;
+  }
+
+  .policy-section strong {
+    color: var(--color-text-primary);
+    font-weight: 600;
+  }
+
+  .policy-section em {
+    color: var(--color-text-primary);
+    font-style: italic;
+  }
+
+  .policy-section code {
+    font-family: monospace;
+    font-size: 0.875em;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
+    padding: 0.1em 0.35em;
+    color: var(--color-text-primary);
+  }
+
+  /* Info block */
+  .info-block {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+  }
+
+  .info-block p {
+    margin-bottom: 0.3rem !important;
+  }
+
+  /* Placeholder text — owner must replace */
+  .placeholder {
+    background: rgba(196, 132, 45, 0.12);
+    border: 1px dashed var(--color-accent);
+    border-radius: 3px;
+    padding: 0.1em 0.4em;
+    color: var(--color-accent);
+    font-size: 0.875em;
+    font-style: italic;
+  }
+
+  /* Tables */
+  .table-wrapper {
+    overflow-x: auto;
+    margin: 1rem 0;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+  }
+
+  .policy-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+
+  .policy-table th {
+    background: var(--color-bg-elevated);
+    color: var(--color-text-primary);
+    font-family: "Source Sans 3", sans-serif;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.65rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .policy-table td {
+    padding: 0.65rem 1rem;
+    color: var(--color-text-muted);
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+    line-height: 1.55;
+  }
+
+  .policy-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* Rights list */
+  .rights-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-left: 0;
+    list-style: none;
+    margin: 1rem 0;
+  }
+
+  .rights-list li {
+    padding-left: 1.25rem;
+    position: relative;
+  }
+
+  .rights-list li::before {
+    content: "–";
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+  }
+
+  /* DVI block */
+  .dvi-block {
+    background: var(--color-bg-elevated);
+    border-left: 3px solid var(--color-accent);
+    border-radius: 0 4px 4px 0;
+    padding: 1rem 1.25rem;
+    margin-top: 1.25rem;
+  }
+
+  .dvi-block p {
+    margin-bottom: 0.4rem !important;
+  }
+
+  .dvi-address {
+    font-size: 0.82rem !important;
+    margin-top: 0.25rem !important;
+  }
+
+  /* Links */
+  .policy-link {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.2s ease;
+  }
+
+  .policy-link:hover {
+    color: var(--color-accent-hover);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* Back link */
+  .back-link-wrap {
+    margin-top: 1rem;
+  }
+
+  .back-link {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .back-link:hover {
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 640px) {
+    .privacy-content {
+      padding: 2.5rem 1.25rem 4rem;
+    }
+
+    .policy-table th,
+    .policy-table td {
+      padding: 0.5rem 0.75rem;
+    }
+  }
+</style>

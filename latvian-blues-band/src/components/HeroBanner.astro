@@ -1,0 +1,178 @@
+---
+interface Props {
+  title?: string;
+  tagline?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+}
+
+const {
+  title   = 'Latvian Blues Band',
+  tagline = 'Blues Music from Latvia',
+  imageSrc,
+  imageAlt = 'Latvian Blues Band performing live',
+} = Astro.props;
+---
+
+<div class="hero">
+  <!-- Background image or gradient placeholder -->
+  {imageSrc
+    ? <img src={imageSrc} alt={imageAlt} class="hero-img" />
+    : <div class="hero-placeholder" aria-hidden="true"></div>
+  }
+
+  <!-- Dark gradient overlay -->
+  <div class="hero-overlay" aria-hidden="true"></div>
+
+  <!-- Content -->
+  <div class="hero-content">
+    <p class="hero-eyebrow hero-animate" style="--delay: 0.1s">Blues Music from Latvia</p>
+    <h1 class="hero-title hero-animate" style="--delay: 0.3s">{title}</h1>
+    <p class="hero-tagline hero-animate" style="--delay: 0.55s">{tagline}</p>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="scroll-hint" aria-hidden="true">
+    <span class="scroll-hint-line"></span>
+  </div>
+</div>
+
+<style>
+  .hero {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* Real photo */
+  .hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    z-index: 0;
+  }
+
+  /* Gradient placeholder (before real photo is added) */
+  .hero-placeholder {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 60% 40%, #2a1a0a 0%, transparent 70%),
+      radial-gradient(ellipse 50% 80% at 20% 80%, #1a0d0d 0%, transparent 60%),
+      linear-gradient(135deg, #0A0A0F 0%, #1a1025 40%, #0e0a1a 100%);
+  }
+
+  /* Warm gradient overlay — always present over image */
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(to bottom,
+        rgba(10,10,15,0.5) 0%,
+        rgba(10,10,15,0.2) 40%,
+        rgba(10,10,15,0.7) 80%,
+        rgba(10,10,15,0.95) 100%
+      ),
+      linear-gradient(to right,
+        rgba(10,10,15,0.6) 0%,
+        transparent 60%
+      );
+  }
+
+  /* Content */
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 7rem 1.5rem 4rem;
+    max-width: 900px;
+    width: 100%;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.75rem, 9vw, 7rem);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.25rem;
+    text-shadow: 0 2px 40px rgba(0,0,0,0.8);
+  }
+
+  .hero-tagline {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    max-width: 540px;
+    margin: 0 auto 2.5rem;
+  }
+
+  /* CTA row */
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Scroll hint — animated downward line */
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .scroll-hint-line {
+    display: block;
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, var(--color-accent), transparent);
+    animation: scroll-drop 2s ease-in-out infinite;
+  }
+
+  @keyframes scroll-drop {
+    0%   { opacity: 0; transform: translateY(-12px); }
+    25%  { opacity: 1; }
+    75%  { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(10px); }
+  }
+
+  /* Hero entrance animations — CSS keyframes, no JS dependency */
+  .hero-animate {
+    opacity: 0;
+    animation: hero-fade-up 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation-delay: var(--delay, 0s);
+  }
+
+  @keyframes hero-fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>

@@ -1,0 +1,61 @@
+---
+interface Props {
+  /** YouTube video ID — the part after ?v= or youtu.be/ */
+  videoId: string;
+  title?: string;
+}
+
+const {
+  videoId,
+  title = 'Latvian Blues Band — Live Performance',
+} = Astro.props;
+
+const src = `https://www.youtube.com/embed/aPgFV_vGkIg?si=XAkCZYejHfZEUyO1`;
+---
+
+<div class="yt-outer">
+  <div class="yt-wrapper">
+    <iframe
+      src={src}
+      title={title}
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+      loading="lazy"
+    ></iframe>
+  </div>
+</div>
+
+<style>
+  .yt-outer {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  /* 16:9 aspect ratio container (mobile) */
+  .yt-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--color-bg-elevated);
+  }
+
+  /* Match Spotify's fixed height on desktop */
+  @media (min-width: 900px) {
+    .yt-wrapper {
+      padding-bottom: 0;
+      height: 352px;
+    }
+  }
+
+  .yt-wrapper iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+</style>

@@ -1,0 +1,210 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Latvian Blues Band — Blues Music from Latvia',
+  description = 'Official website of Latvian Blues Band. Live shows, music, and booking information.',
+} = Astro.props;
+
+const siteUrl = 'https://latvianbluesband.lv';
+const ogImage = `${siteUrl}/images/band/og-image.jpg`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0A0A0F" />
+    <meta name="color-scheme" content="dark" />
+
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={siteUrl} />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="en" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={siteUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Latvian Blues Band" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "MusicGroup",
+        "name": "Latvian Blues Band",
+        "url": "https://latvianbluesband.lv",
+        "genre": "Blues",
+        "foundingLocation": {
+          "@type": "Place",
+          "name": "Latvia"
+        },
+        "sameAs": [
+          "https://facebook.com/latvianbluesband",
+          "https://instagram.com/latvianbluesband",
+          "https://open.spotify.com/artist/placeholder",
+          "https://www.deezer.com/artist/placeholder",
+          "https://www.youtube.com/@latvianbluesband"
+        ]
+      }
+    </script>
+
+    <!-- Google Analytics 4 (replace G-XXXXXXXXXX with real ID) -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script> -->
+  </head>
+  <body>
+    <!-- Skip to main content — keyboard navigation accessibility -->
+    <a href="#home" class="skip-link">Skip to content</a>
+
+    <slot />
+
+    <!-- Intersection Observer: scroll reveal + active nav -->
+    <script>
+      // Scroll reveal animations
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => {
+        revealObserver.observe(el);
+      });
+
+      // Active nav section tracking
+      const sections = document.querySelectorAll('.section[id]');
+      const navLinks = document.querySelectorAll('[data-nav-link]');
+
+      function updateActiveNav() {
+        const midY = window.innerHeight / 2;
+        let activeId = null;
+
+        sections.forEach(section => {
+          const rect = section.getBoundingClientRect();
+          if (rect.top <= midY && rect.bottom > midY) {
+            activeId = section.id;
+          }
+        });
+
+        // Fallback: pick whichever section top is closest to 0
+        if (!activeId) {
+          let minDist = Infinity;
+          sections.forEach(section => {
+            const dist = Math.abs(section.getBoundingClientRect().top);
+            if (dist < minDist) { minDist = dist; activeId = section.id; }
+          });
+        }
+
+        if (activeId) {
+          navLinks.forEach(link => {
+            link.classList.toggle('nav-active', link.getAttribute('href') === `#${activeId}`);
+          });
+        }
+      }
+
+      window.addEventListener('scroll', updateActiveNav, { passive: true });
+      updateActiveNav();
+
+      // Nav background on scroll
+      const navbar = document.getElementById('navbar');
+      if (navbar) {
+        window.addEventListener('scroll', () => {
+          navbar.classList.toggle('scrolled', window.scrollY > 80);
+        }, { passive: true });
+      }
+    </script>
+
+    <!-- GA4 Custom Event Tracking -->
+    <script>
+      // Safe gtag wrapper — no-ops if GA4 is not configured yet
+      function track(eventName, params) {
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', eventName, params);
+        }
+      }
+
+      // Section views — fire once per section per page load
+      const viewedSections = new Set();
+      const sectionViewObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            if (id && !viewedSections.has(id)) {
+              viewedSections.add(id);
+              track('section_view', { section_name: id });
+            }
+          }
+        });
+      }, { threshold: 0.5 });
+
+      document.querySelectorAll('.section[id]').forEach(el => {
+        sectionViewObserver.observe(el);
+      });
+
+      // Email contact click
+      document.querySelectorAll('[data-ga-event="contact_click"]').forEach(el => {
+        el.addEventListener('click', () => track('contact_click', { method: 'mailto' }));
+      });
+
+      // Social link clicks
+      document.querySelectorAll('[data-ga-event="social_click"]').forEach(el => {
+        el.addEventListener('click', () => {
+          track('social_click', { platform: el.dataset.gaPlatform ?? 'unknown' });
+        });
+      });
+
+      // Newsletter form submit
+      document.getElementById('newsletter-form')?.addEventListener('submit', () => {
+        track('newsletter_signup', { method: 'mailchimp' });
+      });
+
+      // Ticket link clicks
+      document.querySelectorAll('[data-ga-event="ticket_click"]').forEach(el => {
+        el.addEventListener('click', () => {
+          track('ticket_click', { show: el.dataset.gaShow ?? 'unknown' });
+        });
+      });
+    </script>
+  </body>
+</html>

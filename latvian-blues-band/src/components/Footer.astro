@@ -1,0 +1,66 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer-inner">
+    <p class="footer-copy">
+      &copy; {year} Latvian Blues Band. All rights reserved.
+    </p>
+    <p class="footer-links">
+      <a href="/privacy" class="footer-link">Privacy Policy</a>
+    </p>
+    <p class="footer-built">
+      Built by ITVGSolutions.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--color-border);
+    padding: 1.5rem;
+    margin-top: auto;
+  }
+
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-copy,
+  .footer-built,
+  .footer-links {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.02em;
+  }
+
+  .footer-link {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .footer-link:hover {
+    color: var(--color-accent);
+  }
+
+  .footer-built span {
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 480px) {
+    .footer-inner {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.4rem;
+    }
+  }
+</style>
