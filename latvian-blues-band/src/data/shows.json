@@ -134,45 +134,5 @@
     "country": "Germany",
     "ticketUrl": "https://sasel-haus.de/veranstaltungen/",
     "description": "Sasel-Haus"
-  },
-  {
-    "date": "yyyy-mm-dd",
-    "venue": "",
-    "city": "",
-    "country": "",
-    "ticketUrl": "",
-    "description": ""
-  },
-  {
-    "date": "yyyy-mm-dd",
-    "venue": "",
-    "city": "",
-    "country": "",
-    "ticketUrl": "",
-    "description": ""
-  },
-  {
-    "date": "yyyy-mm-dd",
-    "venue": "",
-    "city": "",
-    "country": "",
-    "ticketUrl": "",
-    "description": ""
-  },
-  {
-    "date": "yyyy-mm-dd",
-    "venue": "",
-    "city": "",
-    "country": "",
-    "ticketUrl": "",
-    "description": ""
-  },
-  {
-    "date": "yyyy-mm-dd",
-    "venue": "",
-    "city": "",
-    "country": "",
-    "ticketUrl": "",
-    "description": ""
   }
 ]

@@ -325,7 +325,7 @@ const socialLinks = [
     display: none;
     position: fixed;
     inset: 0;
-    z-index: 49;
+    z-index: 51;
   }
 
   .mobile-drawer.open {
@@ -475,10 +475,38 @@ const socialLinks = [
     link.addEventListener('click', closeDrawer);
   });
 
-  // Close on Escape key
+  // Close on Escape; trap focus inside drawer while open
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && drawer?.classList.contains('open')) {
+    if (!drawer?.classList.contains('open')) return;
+
+    if (e.key === 'Escape') {
       closeDrawer();
+      return;
+    }
+
+    if (e.key === 'Tab') {
+      const panel = document.querySelector('.drawer-panel');
+      const focusable = Array.from(
+        panel?.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        ) ?? []
+      );
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     }
   });
 
