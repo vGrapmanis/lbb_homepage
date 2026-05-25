@@ -1,23 +1,4 @@
 ---
-interface Props {
-  /** Spotify artist ID — replace with real ID from open.spotify.com/artist/ARTIST_ID */
-  artistId?: string;
-  /** Alternatively, embed a specific album or playlist: 'album', 'playlist', 'track' */
-  type?: "artist" | "album" | "playlist" | "track";
-  /** ID for the alternative embed type */
-  id?: string;
-  height?: number;
-}
-
-const {
-  artistId = "1qMnpBrWo9j6mgz4dCIKoS?utm_source=generator",
-  type = "artist",
-  id,
-  height = 352,
-} = Astro.props;
-
-const embedId = id ?? artistId;
-const embedType = id ? type : "artist";
 const src = `https://open.spotify.com/embed/artist/1qMnpBrWo9j6mgz4dCIKoS?utm_source=generator`;
 ---
 
