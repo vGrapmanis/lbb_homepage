@@ -1,5 +1,10 @@
 ---
-const src = `https://open.spotify.com/embed/artist/1qMnpBrWo9j6mgz4dCIKoS?utm_source=generator`;
+interface Props {
+  artistId: string;
+}
+
+const { artistId } = Astro.props;
+const src = `https://open.spotify.com/embed/artist/${artistId}?utm_source=generator`;
 ---
 
 <div class="spotify-wrapper">
