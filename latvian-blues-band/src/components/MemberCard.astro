@@ -87,33 +87,31 @@ const hasSocials = socialLinks.length > 0;
 
 </article>
 
-{hasSocials && (
-  <script>
-    const isTouchDevice = () => window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+<script>
+  const isTouchDevice = () => window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 
-    document.querySelectorAll('.member-photo-wrap.has-socials').forEach(wrap => {
-      wrap.addEventListener('click', e => {
-        if ((e.target as Element).closest('.social-link')) return;
-        wrap.classList.toggle('social-active');
-      });
-
-      wrap.addEventListener('mouseleave', () => {
-        if (!isTouchDevice()) {
-          wrap.classList.remove('social-active');
-        }
-      });
+  document.querySelectorAll('.member-photo-wrap.has-socials').forEach(wrap => {
+    wrap.addEventListener('click', e => {
+      if ((e.target as Element).closest('.social-link')) return;
+      wrap.classList.toggle('social-active');
     });
 
-    // Dismiss overlay when tapping outside the card on touch devices
-    document.addEventListener('click', e => {
-      document.querySelectorAll('.member-photo-wrap.social-active').forEach(wrap => {
-        if (!wrap.contains(e.target as Node)) {
-          wrap.classList.remove('social-active');
-        }
-      });
+    wrap.addEventListener('mouseleave', () => {
+      if (!isTouchDevice()) {
+        wrap.classList.remove('social-active');
+      }
     });
-  </script>
-)}
+  });
+
+  // Dismiss overlay when tapping outside the card on touch devices
+  document.addEventListener('click', e => {
+    document.querySelectorAll('.member-photo-wrap.social-active').forEach(wrap => {
+      if (!wrap.contains(e.target as Node)) {
+        wrap.classList.remove('social-active');
+      }
+    });
+  });
+</script>
 
 <style>
   .member-card {
