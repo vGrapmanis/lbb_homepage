@@ -47,27 +47,23 @@ const fullDate = dateObj.toLocaleDateString('en-GB', {
     {venue && <p class="show-description">{venue}</p>}
   </div>
 
-  <!-- Ticket link / Past badge -->
+  <!-- Ticket link / Past badge — JS adds show-card--past to reclassify -->
   <div class="show-action">
-    {isPast
-      ? <span class="show-past-badge">Past show</span>
-      : ticketUrl
-        ? (
-          <a
-            href={ticketUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn show-ticket-btn"
-            aria-label={`Get tickets for ${venue} on ${fullDate}`}
-            data-ga-event="ticket_click"
-            data-ga-show={`${venue}-${date}`}
-          >
-            Tickets
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-left:0.4rem;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </a>
-        )
-        : null
-    }
+    {ticketUrl && (
+      <a
+        href={ticketUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn show-ticket-btn"
+        aria-label={`Get tickets for ${venue} on ${fullDate}`}
+        data-ga-event="ticket_click"
+        data-ga-show={`${venue}-${date}`}
+      >
+        Tickets
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-left:0.4rem;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    )}
+    <span class="show-past-badge">Past show</span>
   </div>
 </article>
 
@@ -188,6 +184,7 @@ const fullDate = dateObj.toLocaleDateString('en-GB', {
   }
 
   .show-past-badge {
+    display: none;
     font-size: 0.7rem;
     font-weight: 600;
     letter-spacing: 0.08em;
@@ -197,6 +194,14 @@ const fullDate = dateObj.toLocaleDateString('en-GB', {
     white-space: nowrap;
     color: var(--color-text-muted);
     border: 1px solid var(--color-border);
+  }
+
+  .show-card--past .show-past-badge {
+    display: inline;
+  }
+
+  .show-card--past .show-ticket-btn {
+    display: none;
   }
 
   /* ── Mobile stacked layout ── */

@@ -15,17 +15,7 @@ import discography from "../data/discography.json";
 import allShows from "../data/shows.json";
 import members from "../data/members.json";
 
-// Today at build time — used to split upcoming vs past
-const today = new Date();
-today.setHours(0, 0, 0, 0);
-
-const upcoming = allShows
-  .filter((s) => new Date(s.date + "T00:00:00") >= today)
-  .sort((a, b) => a.date.localeCompare(b.date));
-
-const past = allShows
-  .filter((s) => new Date(s.date + "T00:00:00") < today)
-  .sort((a, b) => b.date.localeCompare(a.date)); // newest-first
+const allShowsSorted = [...allShows].sort((a, b) => a.date.localeCompare(b.date));
 ---
 
 <BaseLayout>
@@ -88,103 +78,72 @@ const past = allShows
       <!-- Header -->
       <div class="tour-header reveal"></div>
 
-      <!-- Upcoming shows -->
+      <!-- Upcoming shows — filtered client-side so stale builds stay correct -->
       <div class="tour-upcoming">
-        {
-          upcoming.length > 0 ? (
-            <ul class="show-list reveal-stagger" role="list">
-              {upcoming.map((show) => (
-                <li>
-                  <ShowCard
-                    date={show.date}
-                    venue={show.venue}
-                    city={show.city}
-                    country={show.country}
-                    ticketUrl={show.ticketUrl}
-                    description={show.description}
-                    isPast={false}
-                  />
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p class="tour-empty reveal">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-              >
-                <>
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="12" y1="8" x2="12" y2="12" />
-                  <line x1="12" y1="16" x2="12.01" y2="16" />
-                </>
-              </svg>
-              Stay tuned for upcoming shows — follow us on social media for
-              announcements.
-            </p>
-          )
-        }
+        <ul class="show-list reveal-stagger" id="upcoming-shows" role="list">
+          {allShowsSorted.map((show) => (
+            <li data-show-date={show.date}>
+              <ShowCard
+                date={show.date}
+                venue={show.venue}
+                city={show.city}
+                country={show.country}
+                ticketUrl={show.ticketUrl}
+                description={show.description}
+                isPast={false}
+              />
+            </li>
+          ))}
+        </ul>
+        <p class="tour-empty reveal" id="tour-empty-msg" style="display:none">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          Stay tuned for upcoming shows — follow us on social media for
+          announcements.
+        </p>
       </div>
 
-      <!-- Past shows (collapsible) -->
-      {
-        past.length > 0 && (
-          <div class="tour-past reveal">
-            <button
-              class="past-toggle"
-              id="past-toggle"
-              aria-expanded="false"
-              aria-controls="past-shows"
-            >
-              <span>Past shows ({past.length})</span>
-              <svg
-                class="past-toggle-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-              >
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
-            </button>
-
-            <ul
-              class="show-list show-list--past"
-              id="past-shows"
-              role="list"
-              hidden
-            >
-              {past.map((show) => (
-                <li>
-                  <ShowCard
-                    date={show.date}
-                    venue={show.venue}
-                    city={show.city}
-                    country={show.country}
-                    ticketUrl={show.ticketUrl}
-                    description={show.description}
-                    isPast={true}
-                  />
-                </li>
-              ))}
-            </ul>
-          </div>
-        )
-      }
+      <!-- Past shows (collapsible) — populated by client-side JS -->
+      <div class="tour-past reveal" id="tour-past-section" style="display:none">
+        <button
+          class="past-toggle"
+          id="past-toggle"
+          aria-expanded="false"
+          aria-controls="past-shows"
+        >
+          <span id="past-toggle-label">Past shows</span>
+          <svg
+            class="past-toggle-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </button>
+        <ul class="show-list show-list--past" id="past-shows" role="list" hidden></ul>
+      </div>
     </div>
   </SectionWrapper>
 
@@ -271,16 +230,14 @@ const past = allShows
           </a>
         </div>
 
-        <!-- Divider -->
-        <div class="contact-divider" aria-hidden="true"></div>
-
-        <!-- Newsletter signup -->
-        <div class="reveal">
-          <NewsletterSignup />
+        <!-- Newsletter signup — hidden until feature is implemented -->
+        <div hidden aria-hidden="true">
+          <div class="contact-divider"></div>
+          <div class="reveal">
+            <NewsletterSignup />
+          </div>
+          <div class="contact-divider"></div>
         </div>
-
-        <!-- Divider -->
-        <div class="contact-divider" aria-hidden="true"></div>
 
         <!-- Social links row -->
         <div class="contact-socials reveal">
@@ -830,6 +787,20 @@ const past = allShows
 
   /* Desktop: single snap section, both panes flow as one column */
   @media (min-width: 1024px) {
+    .contact-header .block-label {
+      font-size: 1.4rem;
+    }
+    .contact-booking-label {
+      font-size: 1.4rem;
+    }
+    .contact-email-btn {
+      font-size: 1.7rem;
+      padding: 1.25rem 2.5rem;
+    }
+    .contact-socials-label {
+      font-size: 1.4rem;
+    }
+
     :global(#about) {
       display: flex;
       flex-direction: column;
@@ -850,9 +821,52 @@ const past = allShows
 </style>
 
 <script>
-  const toggle = document.getElementById("past-toggle");
-  const pastList = document.getElementById("past-shows");
+  // Client-side date classification — runs in visitor's browser so the
+  // upcoming/past split stays correct even without rebuilding the static site.
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
+  const upcomingList = document.getElementById("upcoming-shows");
+  const pastList = document.getElementById("past-shows");
+  const pastSection = document.getElementById("tour-past-section");
+  const emptyMsg = document.getElementById("tour-empty-msg");
+  const pastToggleLabel = document.getElementById("past-toggle-label");
+
+  if (upcomingList && pastList) {
+    const items = Array.from(
+      upcomingList.querySelectorAll<HTMLElement>("li[data-show-date]")
+    );
+    let pastCount = 0;
+
+    items.forEach((li) => {
+      const dateAttr = li.dataset.showDate;
+      if (!dateAttr) return;
+      const showDate = new Date(dateAttr + "T00:00:00");
+      if (showDate < today) {
+        const card = li.querySelector(".show-card");
+        if (card) {
+          card.classList.add("show-card--past");
+          const label = card.getAttribute("aria-label") ?? "";
+          card.setAttribute("aria-label", label.replace("Upcoming show:", "Past show:"));
+        }
+        pastList.appendChild(li);
+        pastCount++;
+      }
+    });
+
+    if (upcomingList.children.length === 0) {
+      upcomingList.style.display = "none";
+      if (emptyMsg) emptyMsg.style.display = "flex";
+    }
+
+    if (pastCount > 0 && pastSection) {
+      pastSection.style.display = "flex";
+      if (pastToggleLabel) pastToggleLabel.textContent = `Past shows (${pastCount})`;
+    }
+  }
+
+  // Past shows toggle
+  const toggle = document.getElementById("past-toggle");
   toggle?.addEventListener("click", () => {
     const isExpanded = toggle.getAttribute("aria-expanded") === "true";
     toggle.setAttribute("aria-expanded", String(!isExpanded));
