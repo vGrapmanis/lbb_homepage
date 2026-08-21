@@ -20,8 +20,8 @@ Goal: professional, atmospheric, memorable — a site that feels like the blues 
 | Animations | **CSS transitions + keyframes** | Zero extra dependencies                                 |
 | Newsletter | **Mailchimp**                   | Free tier (500 subs), subscriber metadata, remarketing  |
 | Analytics  | **Google Analytics 4**          | Traffic tracking, audience insights, event tracking     |
-| Hosting    | **Netlify**                     | Free tier: custom domain, SSL, 100GB/mo, git deploy     |
-| Repo       | **GitHub**                      | Source control + auto-deploy trigger to Netlify         |
+| Hosting    | **FTP (FileZilla)**             | Current: manual upload of `dist/` to shared hosting via FileZilla FTP |
+| Repo       | **GitHub**                      | Source control; future migration to Netlify planned     |
 
 ### Why Astro?
 

@@ -1,74 +1,72 @@
-# Deployment & Domain Migration
+# Deployment
 
-Launching latvianbluesband.lv on Netlify.
+## Current Setup — FTP via FileZilla
+
+The site is deployed manually by building locally and uploading the output via FTP.
+
+### Deploy steps
+
+1. `npm run build` — produces the static site in `dist/`
+2. Open **FileZilla**, connect to the hosting server (ask the site owner for FTP credentials)
+3. Upload the contents of `dist/` to the server's web root (e.g. `public_html/` or `www/`)
+4. Overwrite existing files when prompted
+
+> Every deploy is a full overwrite of the `dist/` directory. There is no incremental or diff-based upload.
+
+### Updating content
+
+To update show dates, member info, or discography: edit the relevant JSON in `src/data/`, rebuild, and re-upload via FTP.
 
 ---
 
-## Before Launch Day
+## Future Migration — Netlify
 
-1. **Deploy to Netlify** — push code to GitHub, connect repo in Netlify dashboard
-2. Netlify auto-assigns a temporary URL like `latvian-blues-band.netlify.app`
-3. **Test everything** on this temporary URL — all sections, animations, embeds, newsletter, mailto, mobile
+A migration to **Netlify** (free tier) is planned. It would replace the manual FTP step with automatic deploys on every push to `main`.
 
----
+### Why migrate
 
-## Launch Day
+- Auto-deploy on `git push` — no manual upload
+- Free SSL/HTTPS provisioned automatically
+- Branch previews, rollbacks, deploy logs
+- Built-in CDN
 
-### Step 1: Netlify Dashboard
+### Migration steps (when ready)
 
-- Go to Site settings → Domain management → Add custom domain
-- Enter: `latvianbluesband.lv`
-- Also add: `www.latvianbluesband.lv` (redirect www → root)
+1. Push repo to GitHub (already there)
+2. Connect the GitHub repo to a new Netlify site in the Netlify dashboard
+3. Set build command: `npm run build`, publish directory: `dist`
+4. Netlify assigns a temporary URL (e.g. `latvian-blues-band.netlify.app`) — test everything there
 
-### Step 2: DNS Settings (at your domain registrar)
+### DNS cutover (latvianbluesband.lv)
 
-**Option A: Netlify DNS (Recommended — simplest)**
+**Option A — Netlify DNS (simplest)**
 
-- Change nameservers at registrar to Netlify's:
+- Change nameservers at the domain registrar to Netlify's:
   - `dns1.p05.nsone.net`
   - `dns2.p05.nsone.net`
   - `dns3.p05.nsone.net`
   - `dns4.p05.nsone.net`
-- Netlify gets full DNS control, auto-provisions HTTPS/SSL
+- Netlify provisions HTTPS automatically
 
-**Option B: External DNS (keep registrar's DNS)**
+**Option B — External DNS (keep registrar's DNS)**
 
 - Add A record: `@` → `75.2.60.5` (Netlify load balancer)
-- Add CNAME record: `www` → `latvian-blues-band.netlify.app`
-- Remove old A/CNAME records pointing to previous hosting
+- Add CNAME: `www` → `latvian-blues-band.netlify.app`
+- Remove old A/CNAME records pointing to the FTP host
 - In Netlify: Domain settings → Verify DNS → provision SSL
 
-### Step 3: DNS Propagation
+DNS propagation takes 15 min – 48 h. Verify at whatsmydns.net.
 
-- Takes 15 minutes to 48 hours (usually under 2 hours)
-- Check at: whatsmydns.net
+### Post-cutover checklist
 
-### Step 4: Post-Propagation Verification
+- [ ] `https://latvianbluesband.lv` shows green lock
+- [ ] `www` redirects to root domain
+- [ ] All sections, animations, embeds, newsletter, mailto work
+- [ ] Submit sitemap to Google Search Console: `https://latvianbluesband.lv/sitemap.xml`
+- [ ] Update GA4 property URL if needed
+- [ ] Cancel old shared hosting after confirming everything works (wait 48 h after DNS cutover)
 
-- Verify HTTPS: `https://latvianbluesband.lv` shows green lock
-- Verify `www` redirects to root domain
-- Submit sitemap to Google Search Console: `https://latvianbluesband.lv/sitemap.xml`
-- Update GA4 property URL if needed
-
----
-
-## Discarding the Old Website
-
-- **Shared hosting:** Cancel hosting plan after DNS confirmed (give 48h)
-- **VPS:** Shut down server after confirming everything works
-- **Other platform (WordPress, Wix, etc.):** Delete/cancel the account
-- **Keep a backup** of old site content before deleting anything
-
----
-
-## Ongoing: Auto-Deploys
-
-After launch, every push to `main` on GitHub automatically deploys to Netlify.
-To update show dates, member info, or discography — edit JSON files in `src/data/` and push.
-
----
-
-## netlify.toml
+### netlify.toml
 
 ```toml
 [build]

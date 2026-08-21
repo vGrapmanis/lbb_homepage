@@ -1,27 +1,11 @@
 [
   {
-    "date": "2026-05-29",
-    "venue": "Ulmenhofschule",
-    "city": "Kellinghusen",
-    "country": "Germany",
-    "ticketUrl": "https://www.eventim.de/artist/latvian-blues-band/?affiliate=TUG",
-    "description": "Pep Blues Festival 2026"
-  },
-  {
-    "date": "2026-05-30",
-    "venue": "",
-    "city": "Norderstedt",
-    "country": "Germany",
-    "ticketUrl": "https://blueswerk-norderstedt.de/",
-    "description": "Blueswerk Norderstedt"
-  },
-  {
-    "date": "2026-06-06",
-    "venue": "",
-    "city": "Jaunjelgava",
+    "date": "2026-07-02",
+    "venue": "MASA",
+    "city": "Riga",
     "country": "Latvia",
-    "ticketUrl": "https://koncertkupols.lv/",
-    "description": "LBB trio @ Koncertkupols"
+    "ticketUrl": "",
+    "description": "feat. Anthony Basso"
   },
   {
     "date": "2026-07-03",
@@ -32,12 +16,12 @@
     "description": "R&B Blues Festival 2026"
   },
   {
-    "date": "2026-07-04",
-    "venue": "Lūksto ežero poilsiavietė",
-    "city": "Varnai",
-    "country": "Lithuania",
-    "ticketUrl": "https://bliuzonaktys.lt/en/",
-    "description": "Bliuzo naktys"
+    "date": "2026-07-22",
+    "venue": "",
+    "city": "Carnikava",
+    "country": "Latvia",
+    "ticketUrl": "",
+    "description": "Muzikālais pikniks"
   },
   {
     "date": "2026-08-01",
@@ -80,12 +64,44 @@
     "description": "Blues na Świecie Festival"
   },
   {
+    "date": "2026-09-11",
+    "venue": "",
+    "city": "Dresden",
+    "country": "Germany",
+    "ticketUrl": "",
+    "description": "Blue Note Dresden"
+  },
+  {
+    "date": "2026-09-12",
+    "venue": "",
+    "city": "Dresden",
+    "country": "Germany",
+    "ticketUrl": "",
+    "description": "Private party"
+  },
+  {
     "date": "2026-09-25",
     "venue": "Culture centre",
     "city": "Spungeni",
     "country": "Latvia",
     "ticketUrl": "",
     "description": "Autumn Blues Party"
+  },
+  {
+    "date": "2026-10-02",
+    "venue": "",
+    "city": "Vilnius",
+    "country": "Lithuania",
+    "ticketUrl": "",
+    "description": "Jazz Cellar 11"
+  },
+  {
+    "date": "2026-10-03",
+    "venue": "",
+    "city": "Palanga",
+    "country": "Lithuania",
+    "ticketUrl": "",
+    "description": "Club Vandenis"
   },
   {
     "date": "2026-10-07",
@@ -112,6 +128,22 @@
     "description": "Manitu Liveclub"
   },
   {
+    "date": "2026-10-16",
+    "venue": "Ropaži Culture House",
+    "city": "Ropaži",
+    "country": "Latvia",
+    "ticketUrl": "",
+    "description": "Autumn Blues party"
+  },
+  {
+    "date": "2026-10-17",
+    "venue": "",
+    "city": "",
+    "country": "Latvia",
+    "ticketUrl": "",
+    "description": "Private party"
+  },
+  {
     "date": "2026-11-05",
     "venue": "Chur Streaming Hall",
     "city": "Chur",
@@ -134,5 +166,29 @@
     "country": "Germany",
     "ticketUrl": "https://sasel-haus.de/veranstaltungen/",
     "description": "Sasel-Haus"
+  },
+  {
+    "date": "2026-12-04",
+    "venue": "",
+    "city": "Ķegums",
+    "country": "Latvia",
+    "ticketUrl": "",
+    "description": "Christmas All star Blues"
+  },
+  {
+    "date": "2026-12-05",
+    "venue": "",
+    "city": "Vilnius",
+    "country": "Lithuania",
+    "ticketUrl": "",
+    "description": "Private party"
+  },
+  {
+    "date": "",
+    "venue": "",
+    "city": "",
+    "country": "",
+    "ticketUrl": "",
+    "description": ""
   }
 ]
