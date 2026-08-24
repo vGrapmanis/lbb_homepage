@@ -20,8 +20,8 @@ Goal: professional, atmospheric, memorable — a site that feels like the blues 
 | Animations | **CSS transitions + keyframes** | Zero extra dependencies                                 |
 | Newsletter | **Mailchimp**                   | Free tier (500 subs), subscriber metadata, remarketing  |
 | Analytics  | **Google Analytics 4**          | Traffic tracking, audience insights, event tracking     |
-| Hosting    | **FTP (FileZilla)**             | Current: manual upload of `dist/` to shared hosting via FileZilla FTP |
-| Repo       | **GitHub**                      | Source control; future migration to Netlify planned     |
+| Hosting    | **Cloudflare Pages**             | Free tier, auto-deploy on push to `main`, built-in CDN/SSL |
+| Repo       | **GitHub**                      | Source control; connected to Cloudflare Pages for CI/CD  |
 
 ### Why Astro?
 
@@ -30,7 +30,7 @@ Goal: professional, atmospheric, memorable — a site that feels like the blues 
 - Single `index.astro` page with section components = clean single-page scroll architecture
 - Built-in image optimization, markdown support
 
-### Why NOT Netlify Forms?
+### Why no contact form?
 
 - No contact form — users email directly via `mailto:` link
 - Newsletter handled entirely by Mailchimp
@@ -119,7 +119,6 @@ latvian-blues-band/
 ├── astro.config.mjs
 ├── tailwind.config.mjs
 ├── package.json
-├── netlify.toml
 └── CLAUDE.md
 ```
 
@@ -135,7 +134,7 @@ Detailed specs are in `/docs/`. Read the relevant doc before working on that are
 | `docs/design.md`            | Colors, typography, animations, visual effects        |
 | `docs/responsive.md`        | Breakpoints, mobile rules, scroll-snap, touch targets |
 | `docs/integrations.md`      | Mailchimp, GA4, Spotify/YouTube embeds, SEO           |
-| `docs/deployment.md`        | Netlify setup, DNS migration, domain guide            |
+| `docs/deployment.md`        | Cloudflare Pages setup, DNS, domain guide             |
 | `docs/content-checklist.md` | Assets the owner must provide before launch           |
 | `docs/data-schemas.md`      | JSON structures for shows, members, discography       |
 
@@ -166,7 +165,7 @@ npm run preview      # Preview production build locally
 
 ## Important Constraints
 
-- **No paid services** — free tiers only (Netlify, Mailchimp, GA4, Google Fonts)
+- **No paid services** — free tiers only (Cloudflare Pages, Mailchimp, GA4, Google Fonts)
 - **No backend/server** — static site only
 - **No contact form** — email via mailto: link
 - **No client-side framework shipped** — Astro outputs HTML, JS only where needed

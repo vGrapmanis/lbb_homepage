@@ -1,75 +1,33 @@
 # Deployment
 
-## Current Setup — FTP via FileZilla
+## Hosting — Cloudflare Pages
 
-The site is deployed manually by building locally and uploading the output via FTP.
+The site is hosted on **Cloudflare Pages**, connected directly to this GitHub repo. Every push to `main` triggers an automatic build and deploy — no manual upload step.
 
-### Deploy steps
+### Pages project settings
 
-1. `npm run build` — produces the static site in `dist/`
-2. Open **FileZilla**, connect to the hosting server (ask the site owner for FTP credentials)
-3. Upload the contents of `dist/` to the server's web root (e.g. `public_html/` or `www/`)
-4. Overwrite existing files when prompted
-
-> Every deploy is a full overwrite of the `dist/` directory. There is no incremental or diff-based upload.
+- **Root directory:** `latvian-blues-band`
+- **Build command:** `npm run build`
+- **Build output directory:** `dist`
 
 ### Updating content
 
-To update show dates, member info, or discography: edit the relevant JSON in `src/data/`, rebuild, and re-upload via FTP.
+To update show dates, member info, discography, or posters: edit the relevant JSON in `src/data/` (or add/remove files in `public/images/posters/`), then `git push` to `main`. Cloudflare Pages picks up the change and rebuilds/deploys automatically — usually live within a couple of minutes.
 
----
+### Headers & redirects
 
-## Future Migration — Netlify
+Cloudflare Pages reads two special files from `public/` (copied into `dist/` at build time):
 
-A migration to **Netlify** (free tier) is planned. It would replace the manual FTP step with automatic deploys on every push to `main`.
+- `public/_headers` — security headers (`X-Frame-Options`, `Referrer-Policy`, HSTS, etc.)
+- `public/_redirects` — 301 redirect from `www.latvianbluesband.lv` to the root domain
 
-### Why migrate
+### DNS / domain
 
-- Auto-deploy on `git push` — no manual upload
-- Free SSL/HTTPS provisioned automatically
-- Branch previews, rollbacks, deploy logs
-- Built-in CDN
+`latvianbluesband.lv` DNS is managed in Cloudflare. The domain is attached to the Pages project via **Pages project → Custom domains**, which Cloudflare wires up automatically since the zone is already on Cloudflare — no nameserver changes needed.
 
-### Migration steps (when ready)
+### Post-deploy checklist
 
-1. Push repo to GitHub (already there)
-2. Connect the GitHub repo to a new Netlify site in the Netlify dashboard
-3. Set build command: `npm run build`, publish directory: `dist`
-4. Netlify assigns a temporary URL (e.g. `latvian-blues-band.netlify.app`) — test everything there
-
-### DNS cutover (latvianbluesband.lv)
-
-**Option A — Netlify DNS (simplest)**
-
-- Change nameservers at the domain registrar to Netlify's:
-  - `dns1.p05.nsone.net`
-  - `dns2.p05.nsone.net`
-  - `dns3.p05.nsone.net`
-  - `dns4.p05.nsone.net`
-- Netlify provisions HTTPS automatically
-
-**Option B — External DNS (keep registrar's DNS)**
-
-- Add A record: `@` → `75.2.60.5` (Netlify load balancer)
-- Add CNAME: `www` → `latvian-blues-band.netlify.app`
-- Remove old A/CNAME records pointing to the FTP host
-- In Netlify: Domain settings → Verify DNS → provision SSL
-
-DNS propagation takes 15 min – 48 h. Verify at whatsmydns.net.
-
-### Post-cutover checklist
-
-- [ ] `https://latvianbluesband.lv` shows green lock
-- [ ] `www` redirects to root domain
+- [ ] `https://latvianbluesband.lv` shows a valid HTTPS padlock
+- [ ] `www` redirects to the root domain
 - [ ] All sections, animations, embeds, newsletter, mailto work
-- [ ] Submit sitemap to Google Search Console: `https://latvianbluesband.lv/sitemap.xml`
-- [ ] Update GA4 property URL if needed
-- [ ] Cancel old shared hosting after confirming everything works (wait 48 h after DNS cutover)
-
-### netlify.toml
-
-```toml
-[build]
-  command = "npm run build"
-  publish = "dist"
-```
+- [ ] Sitemap reachable: `https://latvianbluesband.lv/sitemap.xml`
