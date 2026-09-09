@@ -147,9 +147,7 @@ const fullDate = dateObj.toLocaleDateString('en-GB', {
     font-size: 1.1rem;
     font-weight: 700;
     color: var(--color-text-primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow-wrap: anywhere;
   }
 
   .show-location {
@@ -166,9 +164,7 @@ const fullDate = dateObj.toLocaleDateString('en-GB', {
     color: var(--color-text-muted);
     margin-top: 0.25rem;
     font-style: italic;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow-wrap: anywhere;
   }
 
   /* ── Action ── */
