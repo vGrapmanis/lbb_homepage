@@ -4,7 +4,7 @@
 
 Official homepage for Latvian Blues Band (latvianbluesband.lv).
 A **single-page scrolling website** with six full-viewport sections: Home, Media, Discography, Tour, About, Contact.
-The **Home section** is a full-viewport poster slideshow (`PosterSlideshow.astro`) — auto-advances every 5 s, left/right arrows on desktop, swipe on mobile, dot indicators. Posters loaded from `public/images/posters/` at build time, sorted by filename (YYYY-MM-DD).
+The **Home section** is a full-viewport poster slideshow (`PosterSlideshow.astro`) — auto-advances every 5 s, left/right arrows on desktop, swipe on mobile, dot indicators. Posters are loaded at build time from two independent folders — `public/images/posters/web/` (landscape, shown at ≥768px) and `public/images/posters/mobile/` (portrait, shown below 768px) — each sorted by filename (YYYY-MM-DD). The two folders are independent slideshows with their own poster counts; they are not paired by date.
 Each section fills the entire screen. Scrolling snaps from one section to the next.
 Navigation bar stays fixed on top at all times.
 Goal: professional, atmospheric, memorable — a site that feels like the blues sounds.
@@ -87,7 +87,9 @@ latvian-blues-band/
 │   │   ├── band/              # Band photos, banner images
 │   │   ├── members/           # Individual member headshots
 │   │   ├── albums/            # Album cover art
-│   │   ├── posters/           # Event posters — named YYYY-MM-DD.jpeg, sorted by date
+│   │   ├── posters/
+│   │   │   ├── web/            # Landscape posters (desktop/tablet, ≥768px) — YYYY-MM-DD.jpeg
+│   │   │   └── mobile/         # Portrait posters (phones, <768px) — YYYY-MM-DD.jpeg
 │   │   └── logo.svg           # Band logo
 │   ├── fonts/
 │   ├── robots.txt

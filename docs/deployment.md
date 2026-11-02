@@ -15,7 +15,7 @@ The site is hosted on **Cloudflare Workers**, using its static-assets deploy mod
 
 ### Updating content
 
-To update show dates, member info, discography, or posters: edit the relevant JSON in `src/data/` (or add/remove files in `public/images/posters/`), then `git push` to `main`. Cloudflare picks up the change and rebuilds/deploys automatically — usually live within a couple of minutes.
+To update show dates, member info, discography, or posters: edit the relevant JSON in `src/data/` (or add/remove files in `public/images/posters/web/` for landscape/desktop posters and `public/images/posters/mobile/` for portrait/mobile posters — the two folders are independent, no filename pairing required), then `git push` to `main`. Cloudflare picks up the change and rebuilds/deploys automatically — usually live within a couple of minutes.
 
 ### Headers
 

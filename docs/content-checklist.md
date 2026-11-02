@@ -8,6 +8,7 @@ Assets the band owner must provide before going live. These replace placeholders
 
 - [ ] **Band logo** — SVG preferred, PNG fallback, transparent background
 - [ ] **Hero banner photo** — high-res, landscape, min 1920px wide
+- [ ] **Event posters** — one landscape version per show in `public/images/posters/web/`, one portrait version in `public/images/posters/mobile/` (both `YYYY-MM-DD.jpeg`). The two folders are shown independently (web/ on desktop & tablet, mobile/ on phones) and don't need to match 1:1 — but for a consistent slideshow, aim to supply both orientations for every show
 - [ ] **OG image** — for social sharing, 1200x630px (shows when link is shared on Facebook/Twitter)
 - [ ] **Member photos** — square crop, consistent style, min 600x600px each
 - [ ] **Album cover art** — one per album

@@ -20,12 +20,13 @@ All six sections plus the navigation bar. Each section is a full-viewport scroll
 
 The landing screen — big visual impact, band identity, call to action.
 
-1. **Hero Banner** — Full-viewport band photo with dark gradient overlay + band name + tagline
-2. **CTA Buttons:**
-   - "See us live" → scrolls to `#tour` (fill-sweep animation)
-   - "Get in touch" → scrolls to `#contact` (fill-sweep animation)
+1. **Poster Slideshow** — Full-viewport carousel of event posters, auto-advances every 5s, left/right arrows on desktop, swipe on mobile, dot indicators
+2. Two independent poster sets, chosen by viewport width (not paired by date):
+   - `public/images/posters/web/` — landscape posters, shown at ≥768px
+   - `public/images/posters/mobile/` — portrait posters, shown below 768px
+3. Files are discovered at build time, sorted by filename (`YYYY-MM-DD.jpeg`)
 
-Components: `HeroBanner.astro`
+Components: `PosterSlideshow.astro`
 
 ---
 
