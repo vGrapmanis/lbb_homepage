@@ -2,72 +2,99 @@
 import { readdir } from 'fs/promises';
 import path from 'path';
 
-const postersDir = path.resolve('public/images/posters');
-const files = await readdir(postersDir);
-const posters = files
-  .filter(f => /\.(jpe?g|png|webp)$/i.test(f))
-  .sort()
-  .map(f => `/images/posters/${f}`);
+const IMAGE_RE = /\.(jpe?g|png|webp)$/i;
+
+async function readPosters(dir: string): Promise<string[]> {
+  try {
+    const entries = await readdir(dir);
+    return entries.filter((f) => IMAGE_RE.test(f)).sort();
+  } catch {
+    return []; // folder doesn't exist yet — valid, expected state
+  }
+}
+
+const postersRoot = path.resolve('public/images/posters');
+const [webFiles, mobileFiles] = await Promise.all([
+  readPosters(path.join(postersRoot, 'web')),
+  readPosters(path.join(postersRoot, 'mobile')),
+]);
+
+// Two fully independent poster sets — no pairing, no fallback between them.
+// A CSS breakpoint (see <style> below) decides which one is shown.
+const variants = [
+  { key: 'mobile', posters: mobileFiles.map((f) => `/images/posters/mobile/${f}`) },
+  { key: 'web', posters: webFiles.map((f) => `/images/posters/web/${f}`) },
+];
 ---
 
-<div class="slideshow" id="poster-slideshow" aria-roledescription="carousel" aria-label="Upcoming event posters">
+{variants.map(({ key, posters }) => (
+  <div
+    class="slideshow"
+    data-variant={key}
+    aria-roledescription="carousel"
+    aria-label={`Upcoming event posters (${key})`}
+  >
+    <!-- Slides -->
+    <div class="slides">
+      {posters.map((src, i) => (
+        <div
+          class={`slide${i === 0 ? ' slide--active' : ''}`}
+          role="group"
+          aria-roledescription="slide"
+          aria-label={`Poster ${i + 1} of ${posters.length}`}
+          aria-hidden={i !== 0}
+          data-index={i}
+        >
+          <img
+            src={src}
+            alt={`Event poster ${i + 1}`}
+            class="slide-img"
+            loading="lazy"
+            draggable="false"
+          />
+        </div>
+      ))}
+    </div>
 
-  <!-- Slides -->
-  <div class="slides">
-    {posters.map((src, i) => (
-      <div
-        class={`slide${i === 0 ? ' slide--active' : ''}`}
-        role="group"
-        aria-roledescription="slide"
-        aria-label={`Poster ${i + 1} of ${posters.length}`}
-        aria-hidden={i !== 0}
-        data-index={i}
-      >
-        <img
-          src={src}
-          alt={`Event poster ${i + 1}`}
-          class="slide-img"
-          loading={i === 0 ? 'eager' : 'lazy'}
-          draggable="false"
-        />
-      </div>
-    ))}
+    {posters.length > 0 && (
+      <>
+        <!-- Prev / Next arrows (desktop) -->
+        <button class="arrow arrow--prev" aria-label="Previous poster">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
+        <button class="arrow arrow--next" aria-label="Next poster">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </button>
+
+        <!-- Dot indicators -->
+        <div class="dots" role="tablist" aria-label="Poster navigation">
+          {posters.map((_, i) => (
+            <button
+              class={`dot${i === 0 ? ' dot--active' : ''}`}
+              role="tab"
+              aria-label={`Go to poster ${i + 1} of ${posters.length}`}
+              aria-selected={i === 0}
+              data-dot={i}
+            />
+          ))}
+        </div>
+
+        <!-- Scroll hint -->
+        <div class="scroll-hint" aria-hidden="true">
+          <span class="scroll-hint-line"></span>
+        </div>
+      </>
+    )}
   </div>
-
-  <!-- Prev / Next arrows (desktop) -->
-  <button class="arrow arrow--prev" id="slide-prev" aria-label="Previous poster">
-    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
-         fill="none" stroke="currentColor" stroke-width="2"
-         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <polyline points="15 18 9 12 15 6"/>
-    </svg>
-  </button>
-  <button class="arrow arrow--next" id="slide-next" aria-label="Next poster">
-    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
-         fill="none" stroke="currentColor" stroke-width="2"
-         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <polyline points="9 18 15 12 9 6"/>
-    </svg>
-  </button>
-
-  <!-- Dot indicators -->
-  <div class="dots" role="tablist" aria-label="Poster navigation">
-    {posters.map((_, i) => (
-      <button
-        class={`dot${i === 0 ? ' dot--active' : ''}`}
-        role="tab"
-        aria-label={`Go to poster ${i + 1} of ${posters.length}`}
-        aria-selected={i === 0}
-        data-dot={i}
-      />
-    ))}
-  </div>
-
-  <!-- Scroll hint -->
-  <div class="scroll-hint" aria-hidden="true">
-    <span class="scroll-hint-line"></span>
-  </div>
-</div>
+))}
 
 <style>
   .slideshow {
@@ -83,6 +110,20 @@ const posters = files
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  /* ── Orientation switch: mobile/ posters below 768px, web/ posters at/above ── */
+  .slideshow[data-variant="web"] {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .slideshow[data-variant="mobile"] {
+      display: none;
+    }
+    .slideshow[data-variant="web"] {
+      display: flex;
+    }
   }
 
   /* ── Slides ── */
@@ -245,85 +286,93 @@ const posters = files
 </style>
 
 <script>
-  const slideshow = document.getElementById('poster-slideshow')!;
-  const slides    = Array.from(slideshow.querySelectorAll<HTMLElement>('.slide'));
-  const dots      = Array.from(slideshow.querySelectorAll<HTMLElement>('.dot'));
-  const prevBtn   = slideshow.querySelector<HTMLButtonElement>('#slide-prev')!;
-  const nextBtn   = slideshow.querySelector<HTMLButtonElement>('#slide-next')!;
+  function initCarousel(slideshow: HTMLElement) {
+    const slides = Array.from(slideshow.querySelectorAll<HTMLElement>('.slide'));
+    const dots   = Array.from(slideshow.querySelectorAll<HTMLElement>('.dot'));
+    const total  = slides.length;
+    if (total === 0) return; // this variant has no posters yet
 
-  const total = slides.length;
-  let current = 0;
-  let timer: ReturnType<typeof setInterval> | null = null;
+    const prevBtn = slideshow.querySelector<HTMLButtonElement>('.arrow--prev');
+    const nextBtn = slideshow.querySelector<HTMLButtonElement>('.arrow--next');
 
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let current = 0;
+    let timer: ReturnType<typeof setInterval> | null = null;
 
-  function goTo(index: number) {
-    slides[current].classList.remove('slide--active');
-    slides[current].setAttribute('aria-hidden', 'true');
-    dots[current].classList.remove('dot--active');
-    dots[current].setAttribute('aria-selected', 'false');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    current = (index + total) % total;
+    function goTo(index: number) {
+      slides[current].classList.remove('slide--active');
+      slides[current].setAttribute('aria-hidden', 'true');
+      dots[current].classList.remove('dot--active');
+      dots[current].setAttribute('aria-selected', 'false');
 
-    slides[current].classList.add('slide--active');
-    slides[current].setAttribute('aria-hidden', 'false');
-    dots[current].classList.add('dot--active');
-    dots[current].setAttribute('aria-selected', 'true');
-  }
+      current = (index + total) % total;
 
-  function next() { goTo(current + 1); }
-  function prev() { goTo(current - 1); }
-
-  function startTimer() {
-    if (reducedMotion) return;
-    if (timer) clearInterval(timer);
-    timer = setInterval(next, 5000);
-  }
-
-  function resetTimer() {
-    startTimer();
-  }
-
-  // Arrow buttons
-  prevBtn.addEventListener('click', () => { prev(); resetTimer(); });
-  nextBtn.addEventListener('click', () => { next(); resetTimer(); });
-
-  // Dot buttons
-  dots.forEach(dot => {
-    dot.addEventListener('click', () => {
-      const idx = Number(dot.dataset.dot);
-      goTo(idx);
-      resetTimer();
-    });
-  });
-
-  // Keyboard
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft')  { prev(); resetTimer(); }
-    if (e.key === 'ArrowRight') { next(); resetTimer(); }
-  });
-
-  // Touch swipe
-  let touchStartX = 0;
-  slideshow.addEventListener('touchstart', (e) => {
-    touchStartX = e.touches[0].clientX;
-  }, { passive: true });
-
-  slideshow.addEventListener('touchend', (e) => {
-    const delta = touchStartX - e.changedTouches[0].clientX;
-    if (Math.abs(delta) > 50) {
-      delta > 0 ? next() : prev();
-      resetTimer();
+      slides[current].classList.add('slide--active');
+      slides[current].setAttribute('aria-hidden', 'false');
+      dots[current].classList.add('dot--active');
+      dots[current].setAttribute('aria-selected', 'true');
     }
-  }, { passive: true });
 
-  // Pause on hover
-  slideshow.addEventListener('mouseenter', () => {
-    if (timer) clearInterval(timer);
-  });
-  slideshow.addEventListener('mouseleave', () => {
+    function next() { goTo(current + 1); }
+    function prev() { goTo(current - 1); }
+
+    function startTimer() {
+      if (reducedMotion) return;
+      if (timer) clearInterval(timer);
+      timer = setInterval(next, 5000);
+    }
+
+    function resetTimer() {
+      startTimer();
+    }
+
+    // Arrow buttons
+    prevBtn?.addEventListener('click', () => { prev(); resetTimer(); });
+    nextBtn?.addEventListener('click', () => { next(); resetTimer(); });
+
+    // Dot buttons
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const idx = Number(dot.dataset.dot);
+        goTo(idx);
+        resetTimer();
+      });
+    });
+
+    // Keyboard — global, but only act when this instance is the visible one
+    // (display:none gives offsetParent === null), so a hidden variant never
+    // steals arrow-key input from the one the visitor actually sees.
+    document.addEventListener('keydown', (e) => {
+      if (slideshow.offsetParent === null) return;
+      if (e.key === 'ArrowLeft')  { prev(); resetTimer(); }
+      if (e.key === 'ArrowRight') { next(); resetTimer(); }
+    });
+
+    // Touch swipe
+    let touchStartX = 0;
+    slideshow.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+
+    slideshow.addEventListener('touchend', (e) => {
+      const delta = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(delta) > 50) {
+        delta > 0 ? next() : prev();
+        resetTimer();
+      }
+    }, { passive: true });
+
+    // Pause on hover
+    slideshow.addEventListener('mouseenter', () => {
+      if (timer) clearInterval(timer);
+    });
+    slideshow.addEventListener('mouseleave', () => {
+      startTimer();
+    });
+
     startTimer();
-  });
+  }
 
-  startTimer();
+  document.querySelectorAll<HTMLElement>('.slideshow').forEach(initCarousel);
 </script>
