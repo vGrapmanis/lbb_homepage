@@ -1,85 +1,5 @@
 [
   {
-    "date": "2026-09-11",
-    "venue": "",
-    "city": "Dresden",
-    "country": "Germany",
-    "ticketUrl": "",
-    "description": "Blue Note Dresden"
-  },
-  {
-    "date": "2026-09-12",
-    "venue": "",
-    "city": "Dresden",
-    "country": "Germany",
-    "ticketUrl": "",
-    "description": "Private party"
-  },
-  {
-    "date": "2026-09-25",
-    "venue": "Culture centre",
-    "city": "Spungeni",
-    "country": "Latvia",
-    "ticketUrl": "",
-    "description": "Autumn Blues Party"
-  },
-  {
-    "date": "2026-10-02",
-    "venue": "",
-    "city": "Vilnius",
-    "country": "Lithuania",
-    "ticketUrl": "",
-    "description": "Jazz Cellar 11"
-  },
-  {
-    "date": "2026-10-03",
-    "venue": "",
-    "city": "Palanga",
-    "country": "Lithuania",
-    "ticketUrl": "",
-    "description": "Club Vandenis"
-  },
-  {
-    "date": "2026-10-07",
-    "venue": "VEF Culture Palace",
-    "city": "Riga",
-    "country": "Latvia",
-    "ticketUrl": "https://www.bilesuparadize.lv/lv/event/170089?fbclid=IwY2xjawRmvsZleHRuA2FlbQIxMABicmlkETBjY0ZQd0NteVNHemFweDFIc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHmlG0DWoClLziO5wWkOVDAF6eJ7rfzqwNtxUtXfmQGYXsb7oPVxsqjmE_D3U_aem_Iwx2oxnRT0SKHaGhlim7zg",
-    "description": "Artis Locmelis Birthday Concert"
-  },
-  {
-    "date": "2026-10-09",
-    "venue": "",
-    "city": "Plauen",
-    "country": "Germany",
-    "ticketUrl": "https://www.eventim.de/event/latvian-blues-band-malzhaus-20887609/?affiliate=TUG&srsltid=AfmBOoq4LC7jllzL0dfbwJ0rxUK1ewvru45aF9mMA8Bm8mCsCwY1027m",
-    "description": "Malzhaus"
-  },
-  {
-    "date": "2026-10-10",
-    "venue": "",
-    "city": "Forst (Lausitz)",
-    "country": "Germany",
-    "ticketUrl": "https://manitu-forst.de/event/latvian-blues-band-riga-lettland-baltikum-blues-ein-spitzen-act-2026-10-10",
-    "description": "Manitu Liveclub"
-  },
-  {
-    "date": "2026-10-16",
-    "venue": "Ropaži Culture House",
-    "city": "Ropaži",
-    "country": "Latvia",
-    "ticketUrl": "",
-    "description": "Autumn Blues party"
-  },
-  {
-    "date": "2026-10-17",
-    "venue": "",
-    "city": "",
-    "country": "Latvia",
-    "ticketUrl": "",
-    "description": "Private party"
-  },
-  {
     "date": "2026-11-05",
     "venue": "Chur Streaming Hall",
     "city": "Chur",
@@ -102,6 +22,14 @@
     "country": "Germany",
     "ticketUrl": "https://sasel-haus.de/veranstaltungen/",
     "description": "Sasel-Haus"
+  },
+  {
+    "date": "2026-11-07",
+    "venue": "Domu Kultury Oskard",
+    "city": "Konin",
+    "country": "Poland",
+    "ticketUrl": "https://ckis-konin.bilety24.pl/wydarzenie/?id=165286",
+    "description": "31. International Blues Festival Bluesonalia"
   },
   {
     "date": "2026-12-04",
