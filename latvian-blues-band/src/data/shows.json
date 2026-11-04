@@ -46,5 +46,13 @@
     "country": "Lithuania",
     "ticketUrl": "",
     "description": "Private party"
+  },
+  {
+    "date": "2027-02-10",
+    "venue": "VEF Culture Palace",
+    "city": "Riga",
+    "country": "Latvia",
+    "ticketUrl": "https://www.bilesuparadize.lv/lv/event/171116",
+    "description": "Jānis 'Bux' Bukovskis Birthday Blues Festival"
   }
 ]
